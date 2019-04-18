@@ -121,7 +121,8 @@ bots:
 
 # The po-refresh bot expects these specific Makefile targets
 update-po:
-upload-pot: po-push
+upload-pot:
+	echo "Hello"
 download-po: po-pull
 
 .PHONY: tag local-clean vm check devel-install

@@ -15,6 +15,7 @@ package-lock.json
 /po/*.pot
 bots
 /test/images
+/test/common/
 *.tar.gz
 *.rpm
 /tmp

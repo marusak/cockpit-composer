@@ -71,6 +71,8 @@
     "stdio": "^0.2.7",
     "stylelint": "^9.5.0",
     "stylelint-config-standard": "^18.2.0",
+    "chrome-remote-interface": "^0.28.0",
+    "sizzle": "^2.3.3",
     "webpack": "^4.28.4",
     "webpack-cli": "^3.2.1"
   },

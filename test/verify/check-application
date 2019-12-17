@@ -1,0 +1,54 @@
+#!/usr/bin/python3
+# Run this with --help to see available options for tracing and debugging
+# See https://github.com/cockpit-project/cockpit/blob/master/test/common/testlib.py
+# "class Browser" and "class MachineCase" for the available API.
+
+import os
+import sys
+
+# import Cockpit's machinery for test VMs and its browser test API
+TEST_DIR = os.path.dirname(os.path.dirname(__file__))
+sys.path.append(os.path.join(TEST_DIR, "common"))
+sys.path.append(os.path.join(os.path.dirname(TEST_DIR), "bots/machine"))
+
+import testlib
+from machine_core import ssh_connection
+
+class TestApplication(testlib.MachineCase):
+    provision = {"0": {"restrict": False}}
+
+    def setUp(self):
+        super().setUp()
+        self.allow_journal_messages("http:///run/weldr/api.socket/api/v0/.* couldn't connect: No such file or directory")
+
+
+    def testBasic(self):
+        b = self.browser
+        m = self.machine
+
+        self.login_and_go("/composer", authorized=True)
+        b.wait_present("#main")
+        b.click("button:contains('Start')")
+        b.wait_visible("li[data-blueprint=example-atlas]")
+        b.click("li[data-blueprint=example-atlas] a:contains('Edit Packages')")
+
+        #Search for emacs
+        b.set_input_text("#cmpsr-blueprint-input-filter", "emacs")
+        b.key_press("\r")
+        b.wait_text(".toolbar-pf-results span.label", "Name: emacs")
+        b.wait_visible("li[data-input=emacs]")
+
+        # Then realize that vim is better
+        b.set_input_text("#cmpsr-blueprint-input-filter", "vim-enhanced")
+        b.key_press("\r")
+        b.wait_text(".toolbar-pf-results span.label", "Name: vim-enhanced")
+        b.wait_visible("li[data-input=vim-enhanced]")
+        b.wait_not_present("li[data-input=emacs]")
+
+        # Include vim in image
+        b.click("li[data-input=vim-enhanced] .pf-c-data-list__item-action a")
+        b.wait_visible("ul[data-list=components] li[data-component=vim-enhanced]")
+
+
+if __name__ == '__main__':
+    testlib.test_main()

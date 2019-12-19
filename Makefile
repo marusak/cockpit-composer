@@ -102,8 +102,9 @@ $(VM_IMAGE): local-clean rpm bots
 
 # checkout Cockpit's test API; this has no API stability guarantee, so check out a stable tag
 # when you start a new project, use the latest relese, and update it from time to time
+# HACK: We should fetch to specific tag and not master - but needed changes are not yet released
 test/common:
-	git fetch --depth=1 https://github.com/cockpit-project/cockpit.git 209
+	git fetch --depth=1 https://github.com/cockpit-project/cockpit.git
 	git checkout --force FETCH_HEAD -- test/common
 	git reset test/common
 

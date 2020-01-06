@@ -13,7 +13,7 @@ BUILD_RUN = npm run build
 endif
 
 WEBLATE_REPO=cockpit-composer-weblate
-WEBLATE_REPO_URL=git@github.com:cockpit-project/cockpit-composer-weblate.git
+WEBLATE_REPO_URL=git@github.com:marusak/cockpit-composer-weblate.git
 WEBLATE_REPO_BRANCH=master
 
 all: npm-install
